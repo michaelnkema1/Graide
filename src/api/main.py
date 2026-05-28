@@ -102,10 +102,12 @@ async def _validate_upload_size(file: UploadFile) -> None:
     await file.seek(0)
 
 # CORS (Allow frontend to connect)
+# allow_credentials must be False if allow_origins contains "*"
+_allow_credentials = "*" not in settings.cors_origins
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins,
-    allow_credentials="*" not in settings.cors_origins,
+    allow_credentials=_allow_credentials,
     allow_methods=["*"],
     allow_headers=["*"],
 )
